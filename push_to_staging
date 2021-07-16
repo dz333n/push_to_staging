@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SOURCE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+TARGET_BRANCH="staging"
+
+log () {
+    echo " [PTS] $1"
+}
+
+log "Current branch: $SOURCE_BRANCH"
+
+
+log "Switching to: $TARGET_BRANCH"
+git checkout $TARGET_BRANCH
+
+
+log "Updating $TARGET_BRANCH"
+git fetch origin $TARGET_BRANCH
+git pull origin $TARGET_BRANCH
+
+
+log "Merging $SOURCE_BRANCH"
+git merge $SOURCE_BRANCH
+
+log "Pushing $TARGET_BRANCH"
+git push origin $TARGET_BRANCH
+
+log "Switching back to $SOURCE_BRANCH"
+git checkout $SOURCE_BRANCH
+
+log "Done"
